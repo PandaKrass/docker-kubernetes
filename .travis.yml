@@ -1,0 +1,28 @@
+language: node_js
+node_js:
+  - 16
+
+sudo: required
+
+services:
+  - docker
+
+before_install:
+  - ls -l
+  - docker build -t pandakrass/docker-kubernetes -f Dockerfile.dev .
+
+script:
+  - docker run -e CI=true pandakrass/docker-kubernetes npm run test
+
+
+deploy:
+  provider: elasticbeanstalk
+  region: "eu-central-1"
+  app: "docker"
+  env: "Docker-env-1"
+  bucket_name: "elasticbeanstalk-eu-central-1-975805877085"
+  bucket_path: "docker"
+  on:
+    branch: master
+  access_key_id: "$AWS_ACCESS_KEY"
+  secret_access_key: "$AWS_SECRET_KEY"
