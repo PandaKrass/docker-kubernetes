@@ -8,8 +8,7 @@ services:
   - docker
 
 before_install:
-  - ls -l
-  - docker build -t pandakrass/docker-kubernetes -f Dockerfile.dev .
+  - docker build -t pandakrass/docker-kubernetes .
 
 script:
   - docker run -e CI=true pandakrass/docker-kubernetes npm run test
